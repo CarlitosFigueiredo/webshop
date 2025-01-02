@@ -13,7 +13,7 @@
                         src="/{{ $image->path }}"
                         alt=""
                         @click="image = '/{{ $image->path }}'"
-                    >
+                    />
                 </div>
             @endforeach
         </div>
@@ -30,7 +30,7 @@
             {{ $this->product->description }}
         </div>
         <div class="mt-4 space-y-4">
-            <select class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-800">
+            <select wire:model="variant" class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-800">
 
                 @foreach ($this->product->variants as $variant)
 
@@ -40,7 +40,13 @@
                 @endforeach
             </select>
 
-            <x-button>
+            @error('variant')
+                <div class="mt-2 text-red-600">
+                    {{ $message }}
+                </div>
+            @enderror
+
+            <x-button wire:click="addToCart">
                 add to cart
             </x-button>
         </div>
