@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Actions\WebShop\AddProductVariantToCard;
 use Illuminate\View\View;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
@@ -20,11 +21,11 @@ class Product extends Component
         $this->variant = $this->product->variants()->value('id');
     }
 
-    public function addToCart(): void
+    public function addToCart(AddProductVariantToCard $cart): void
     {
         $this->validate();
 
-        dd($this->variant);
+        $cart->add(variantId: $this->variant);
     }
 
     public function render(): View
