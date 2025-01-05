@@ -4,11 +4,14 @@ namespace App\Livewire;
 
 use App\Actions\WebShop\AddProductVariantToCard;
 use Illuminate\View\View;
+use Laravel\Jetstream\InteractsWithBanner;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 
 class Product extends Component
 {
+    use InteractsWithBanner;
+
     public int $productId;
     public string $variant;
 
@@ -26,6 +29,8 @@ class Product extends Component
         $this->validate();
 
         $cart->add(variantId: $this->variant);
+
+        $this->banner('Your product has been added to your cart.');
     }
 
     public function render(): View
