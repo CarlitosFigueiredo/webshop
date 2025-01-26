@@ -11,19 +11,19 @@ class Cart extends Component
 {
     public function delete($itemId): void
     {
-        CartFactory::make()->items()->where('id', $itemId)->delete();
+        $this->cart->items()->where('id', $itemId)->delete();
 
         $this->dispatch('productRemovedFromCart');
     }
 
     public function increment($itemId): void
     {
-        CartFactory::make()->items()->find($itemId)?->increment('quantity');
+        $this->cart->items()->find($itemId)?->increment('quantity');
     }
 
     public function decrement($itemId): void
     {
-        $item = CartFactory::make()->items()->find($itemId);
+        $item = $this->cart->items()->find($itemId);
 
         if ($item->quantity > 1) {
             $item->decrement('quantity');
@@ -36,8 +36,14 @@ class Cart extends Component
     }
 
     #[Computed()]
+    protected function cart()
+    {
+        return CartFactory::make()->loadMissing(['items', 'items.product', 'items.variant']);
+    }
+
+    #[Computed()]
     protected function items(): Collection
     {
-        return CartFactory::make()->items;
+        return $this->cart->items;
     }
 }

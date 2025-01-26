@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Support\Number;
+use Money\Currency;
+use Money\Money;
 
 class Product extends Model
 {
@@ -20,7 +21,9 @@ class Product extends Model
     protected function price(): Attribute
     {
         return Attribute::make(
-            get: fn($value) => Number::currency($value, 'USD'),
+            get: function (int $value) {
+                return new Money($value, new Currency('USD'));
+            }
         );
     }
 
